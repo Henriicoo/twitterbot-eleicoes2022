@@ -41,7 +41,7 @@ public class ImageGenerator {
         return chart.getUrl();
     }
 
-    private static String createProgress(int progress) {
+    private static String createProgress(double progress) {
         QuickChart chart = new QuickChart();
 
         chart.setWidth(420);
@@ -128,15 +128,12 @@ public class ImageGenerator {
 
         graphics.drawString(text, x, 290+metrics.getHeight());
 
-        File file  = new File("src/main/resources/imagem-1.png");
-
-        if(file.exists())
-            file = new File("src/main/resources/imagem-2.png");
+        File file  = new File("src/main/resources/imagem-"+cand.pos+".png");
 
         ImageIO.write(imagem,"png",file);
     }
 
-    public static void createFinalImage(int prog) throws IOException {
+    public static void createFinalImage(double prog) throws IOException {
         URL progressURL = new URL(createProgress(prog));
         BufferedImage progress = ImageIO.read(progressURL);
 
@@ -165,6 +162,6 @@ public class ImageGenerator {
         graphics.drawString(text,406,336+metrics.getHeight());
 
 
-        ImageIO.write(imagem,"png",new File("src/main/resources/twitter-generated.png"));
+        ImageIO.write(imagem,"png",new File("src/main/resources/"+Utils.finalImageFile));
     }
 }
