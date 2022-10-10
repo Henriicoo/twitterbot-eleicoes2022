@@ -32,6 +32,12 @@
             <artifactId>twittered</artifactId>
             <version>2.19</version>
         </dependency>
+
+        <dependency>
+            <groupId>io.quickchart</groupId>
+            <artifactId>QuickChart</artifactId>
+            <version>1.2.0</version>
+        </dependency>
     </dependencies>
 
 </project>
