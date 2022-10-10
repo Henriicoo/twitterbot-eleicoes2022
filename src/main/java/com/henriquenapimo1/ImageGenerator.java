@@ -53,7 +53,7 @@ public class ImageGenerator {
                 "                    data: {" +
                 "            datasets: [{" +
                 "                data: ["+progress+"]," +
-                "                backgroundColor: getGradientFillHelper('horizontal', ['#04ADBF', '#F2B807'])," +
+                "                backgroundColor: getGradientFillHelper('horizontal', ['#04ADBF', '#0901f7'])," +
                 "            }]" +
                 "        }," +
                 "            options: {" +
@@ -86,6 +86,7 @@ public class ImageGenerator {
         graphics.drawImage(grafico,30,11,191,191,null);
 
         Font font = new Font("Open Sans Bold", Font.BOLD, 26);
+        graphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
         // NOME
         String text = cand.nome;
@@ -120,7 +121,7 @@ public class ImageGenerator {
 
         // VOTOS
         text = cand.votos+" votos";
-        font = new Font("Open Sans Regular",Font.BOLD,16);
+        font = new Font("Open Sans Regular",Font.PLAIN,16);
         graphics.setFont(font);
 
         metrics = graphics.getFontMetrics(font);
@@ -139,6 +140,7 @@ public class ImageGenerator {
 
         BufferedImage imagem = new BufferedImage(500,375,BufferedImage.TYPE_INT_RGB);
         Graphics2D graphics = imagem.createGraphics();
+        graphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
         BufferedImage candidato = ImageIO.read(new File("src/main/resources/imagem-1.png"));
         graphics.drawImage(candidato,0,0,null);
@@ -159,7 +161,7 @@ public class ImageGenerator {
 
         // FONTE
         text = "FONTE: TSE";
-        graphics.drawString(text,406,336+metrics.getHeight());
+        graphics.drawString(text,400,336+metrics.getHeight());
 
 
         ImageIO.write(imagem,"png",new File("src/main/resources/"+Utils.finalImageFile));
