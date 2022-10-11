@@ -2,7 +2,8 @@
 ![Twitter](https://img.shields.io/twitter/url?label=Twitter%20do%20Bot&style=social&url=https%3A%2F%2Ftwitter.com%2FEleicoesBot) ![License](https://img.shields.io/github/license/HenriqueNapimo1/twitterbot-eleicoes2022?logo=License)
 ### Descrição
 Olá! Esse projeto foi criado com o intuito de divulgar os dados das apurações das eleições de 2022 no Twitter, por meio de um bot, que envia um sumário com imagem a cada
-5 minutos. O que é mais cômodo do que atualizar a página do TSE a cada minuto para acompanhar as apurações.
+5 minutos. O que é mais cômodo do que atualizar a página do TSE a cada minuto para acompanhar as apurações.  
+O perfil do bot pode ser encontrado no [@EleicoesBot](https://twitter.com/EleicoesBot).
 
 ### Agradecimentos
 Obrigado aos criadores dos seguintes repositórios, sem eles, isso não seria possível
