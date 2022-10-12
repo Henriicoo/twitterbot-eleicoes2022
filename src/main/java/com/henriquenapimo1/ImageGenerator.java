@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 
 public class ImageGenerator {
 
@@ -25,7 +26,7 @@ public class ImageGenerator {
                 "  data: {" +
                 "    datasets: [{" +
                 "      data: ["+candidato.porcent+"]," +
-                "      backgroundColor: getGradientFillHelper('horizontal',['blue','"+candidato.cor()+"'])," +
+                "      backgroundColor: getGradientFillHelper('horizontal',['green','"+candidato.cor()+"'])," +
                 "    }]" +
                 "  }," +
                 "  options: {" +
@@ -165,5 +166,92 @@ public class ImageGenerator {
 
 
         ImageIO.write(imagem,"png",new File("src/main/resources/"+Utils.finalImageFile));
+    }
+
+    public static void createEstadosChart(List<Estado> estados) throws IOException {
+        String graf1 = createEstChart(estados.subList(0,9));
+        String graf2 = createEstChart(estados.subList(9,18));
+        String graf3 = createEstChart(estados.subList(18,27));
+
+        BufferedImage imagem = ImageIO.read(new URL(graf1));
+        ImageIO.write(imagem,"png",new File("src/main/resources/grafico1.png"));
+
+        imagem = ImageIO.read(new URL(graf2));
+        ImageIO.write(imagem,"png",new File("src/main/resources/grafico2.png"));
+
+        imagem = ImageIO.read(new URL(graf3));
+        ImageIO.write(imagem,"png",new File("src/main/resources/grafico3.png"));
+    }
+
+    private static String createEstChart(List<Estado> est) {
+        QuickChart chart = new QuickChart();
+
+        chart.setWidth(700);
+        chart.setHeight(373);
+        chart.setVersion("2");
+        chart.setBackgroundColor("white");
+
+        StringBuilder labels = new StringBuilder();
+        StringBuilder lula = new StringBuilder();
+        StringBuilder bolso = new StringBuilder();
+        StringBuilder urna = new StringBuilder();
+
+        est.forEach(uf -> {
+            labels.append("\"").append(uf.nm.toUpperCase()).append("\",");
+            lula.append(uf.votosL).append(",");
+            bolso.append(uf.votosB).append(",");
+            urna.append(uf.urnasApuradas).append(",");
+        });
+
+        chart.setConfig("{" +
+                "  \"type\": \"horizontalBar\"," +
+                "  \"data\": {" +
+                "    \"labels\": [" +
+                labels +
+                "    ]," +
+                "    \"datasets\": [" +
+                "      {" +
+                "        \"label\": \"Lula\"," +
+                "        \"backgroundColor\": \"red\"," +
+                "        \"borderWidth\": 1," +
+                "        \"data\": [" +
+                lula +
+                "        ]" +
+                "      }," +
+                "      {" +
+                "        \"label\": \"Jair Bolsonaro\"," +
+                "        \"backgroundColor\": \"blue\"," +
+                "        \"data\": [" +
+                bolso +
+                "        ]" +
+                "      }," +
+                "      {" +
+                "        \"label\": \"Urnas Apuradas\"," +
+                "        \"backgroundColor\": \"#cccccc\"," +
+                "        \"borderWidth\": 1," +
+                "        \"data\": [" +
+                urna +
+                "        ]" +
+                "      }" +
+                "    ]" +
+                "  }," +
+                "  \"options\": {" +
+                "    \"elements\": {" +
+                "      \"rectangle\": {" +
+                "        \"borderWidth\": 2" +
+                "      }" +
+                "    }," +
+                "    \"responsive\": true," +
+                "    \"legend\": {" +
+                "      \"position\": \"right\"" +
+                "    }," +
+                "    \"title\": {" +
+                "      \"display\": true," +
+                "      \"text\": \"Apurações por Estado\"" +
+                "    }" +
+                "  }" +
+                "}");
+
+        return chart.getUrl();
     }
 }
