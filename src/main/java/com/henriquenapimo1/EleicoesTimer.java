@@ -37,6 +37,7 @@ public class EleicoesTimer {
             ImageGenerator.createCandidatoImage(candidato);
         }
 
+        ImageGenerator.createMapa(estados);
         ImageGenerator.createEstadosChart(estados);
 
         //Thread.sleep(3 * 1000);
@@ -51,7 +52,7 @@ public class EleicoesTimer {
         String text = "APURAÇÃO DAS URNAS ("+urnasFormat+"% apuradas) - às "+horaUltimaAtt+"\n1º "+primeiro.nome+": "+primeiro.porcent+"% ("+primeiro.votos+" votos)\n"+
                 "2º "+segundo.nome+": "+segundo.porcent+"% ("+segundo.votos+" votos)\n#Eleições2022";
 
-        TweetManager.postThread(text,Utils.finalImageFile,"grafico1.png","grafico2.png","grafico3.png");
+        TweetManager.postThread(text,"gen/"+Utils.finalImageFile,"gen/mapa.png","gen/grafico1.png","gen/grafico2.png","gen/grafico3.png");
     }
 
     private String urnasTotal;

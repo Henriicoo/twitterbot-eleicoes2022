@@ -72,6 +72,10 @@ public class ImageGenerator {
     public static void createCandidatoImage(Candidato cand) throws IOException {
         candidato = cand;
 
+        Color cor = Color.BLUE;
+        if(cand.cor().equals("red"))
+            cor = Color.RED;
+
         URL graficoURL = new URL(createCandidatoChart());
         BufferedImage grafico = ImageIO.read(graficoURL);
 
@@ -112,7 +116,7 @@ public class ImageGenerator {
         // PORCENTAGEM
         text = cand.porcent+"%";
         font = new Font("Open Sans Bold",Font.BOLD,38);
-        graphics.setColor(Color.decode("#0901f7"));
+        graphics.setColor(cor);
         graphics.setFont(font);
 
         metrics = graphics.getFontMetrics(font);
@@ -130,7 +134,7 @@ public class ImageGenerator {
 
         graphics.drawString(text, x, 290+metrics.getHeight());
 
-        File file  = new File("src/main/resources/imagem-"+cand.pos+".png");
+        File file  = new File("src/main/resources/gen/imagem-"+cand.pos+".png");
 
         ImageIO.write(imagem,"png",file);
     }
@@ -143,10 +147,10 @@ public class ImageGenerator {
         Graphics2D graphics = imagem.createGraphics();
         graphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 
-        BufferedImage candidato = ImageIO.read(new File("src/main/resources/imagem-1.png"));
+        BufferedImage candidato = ImageIO.read(new File("src/main/resources/gen/imagem-1.png"));
         graphics.drawImage(candidato,0,0,null);
 
-        candidato = ImageIO.read(new File("src/main/resources/imagem-2.png"));
+        candidato = ImageIO.read(new File("src/main/resources/gen/imagem-2.png"));
         graphics.drawImage(candidato,250,0,null);
 
         graphics.drawImage(progress,(imagem.getWidth() - progress.getWidth())/2,330,null);
@@ -165,7 +169,7 @@ public class ImageGenerator {
         graphics.drawString(text,400,336+metrics.getHeight());
 
 
-        ImageIO.write(imagem,"png",new File("src/main/resources/"+Utils.finalImageFile));
+        ImageIO.write(imagem,"png",new File("src/main/resources/gen/"+Utils.finalImageFile));
     }
 
     public static void createEstadosChart(List<Estado> estados) throws IOException {
@@ -174,13 +178,13 @@ public class ImageGenerator {
         String graf3 = createEstChart(estados.subList(18,27));
 
         BufferedImage imagem = ImageIO.read(new URL(graf1));
-        ImageIO.write(imagem,"png",new File("src/main/resources/grafico1.png"));
+        ImageIO.write(imagem,"png",new File("src/main/resources/gen/grafico1.png"));
 
         imagem = ImageIO.read(new URL(graf2));
-        ImageIO.write(imagem,"png",new File("src/main/resources/grafico2.png"));
+        ImageIO.write(imagem,"png",new File("src/main/resources/gen/grafico2.png"));
 
         imagem = ImageIO.read(new URL(graf3));
-        ImageIO.write(imagem,"png",new File("src/main/resources/grafico3.png"));
+        ImageIO.write(imagem,"png",new File("src/main/resources/gen/grafico3.png"));
     }
 
     private static String createEstChart(List<Estado> est) {
@@ -253,5 +257,46 @@ public class ImageGenerator {
                 "}");
 
         return chart.getUrl();
+    }
+
+    public static void createMapa(List<Estado> estados) throws IOException {
+        BufferedImage imagem = new BufferedImage(500,500,BufferedImage.TYPE_INT_ARGB); // 700 373
+        Graphics2D graphics = imagem.createGraphics();
+
+        graphics.setColor(Color.WHITE);
+        graphics.fillRect(0,0,imagem.getWidth(),imagem.getHeight());
+
+        estados.forEach(e -> {
+            try {
+                BufferedImage estado = changeColor(e.nm,Double.parseDouble(e.votosL.replace(",",".")) > Double.parseDouble(e.votosB.replace(",",".")));
+                graphics.drawImage(estado,0,0,500,500,null);
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
+        ImageIO.write(imagem,"png",new File("src/main/resources/gen/mapa.png"));
+    }
+
+    private static BufferedImage changeColor(String estado, boolean red) throws IOException {
+        BufferedImage image = new BufferedImage(500,500,BufferedImage.TYPE_INT_ARGB);
+        image.createGraphics().drawImage(ImageIO.read(new File("src/main/resources/estados/"+estado+".png")),0,0,null);
+
+        int width = image.getWidth();
+        int height = image.getHeight();
+
+        Color cor = Color.BLUE;
+        if(red)
+            cor = Color.RED;
+
+        for (int xx = 0; xx < width; xx++) {
+            for (int yy = 0; yy < height; yy++) {
+                Color originalColor = new Color(image.getRGB(xx, yy),true);
+                if (originalColor.getAlpha() >= 100) {
+                    image.setRGB(xx, yy, cor.getRGB());
+                }
+            }
+        }
+        return image;
     }
 }
