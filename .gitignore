@@ -26,3 +26,4 @@ hs_err_pid*
 
 /target
 /src/main/java/com/henriquenapimo1/Utils.java
+/src/main/resources/gen/
