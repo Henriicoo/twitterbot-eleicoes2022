@@ -137,6 +137,7 @@ public class ImageGenerator {
 
         graphics.setColor(Color.WHITE);
         graphics.fillRect(0,0,imagem.getWidth(),imagem.getHeight());
+        graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 
         estados.forEach(e -> {
             Color cor = Color.BLUE;
@@ -158,7 +159,10 @@ public class ImageGenerator {
 
     private static BufferedImage changeColor(String estado, Color cor) throws IOException {
         BufferedImage image = new BufferedImage(675,675,BufferedImage.TYPE_INT_ARGB);
-        image.createGraphics().drawImage(ImageIO.read(new File("src/main/resources/estados/"+estado+".png")),0,0,675,675,null);
+        Graphics2D graphics = image.createGraphics();
+
+        graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+        graphics.drawImage(ImageIO.read(new File("src/main/resources/estados/"+estado+".png")),0,0,675,675,null);
 
         int width = image.getWidth();
         int height = image.getHeight();
@@ -166,7 +170,7 @@ public class ImageGenerator {
         for (int xx = 0; xx < width; xx++) {
             for (int yy = 0; yy < height; yy++) {
                 Color originalColor = new Color(image.getRGB(xx, yy),true);
-                if (originalColor.getAlpha() >= 200) {
+                if (originalColor.getAlpha() == 255) {
                     image.setRGB(xx, yy, cor.getRGB());
                 }
             }
