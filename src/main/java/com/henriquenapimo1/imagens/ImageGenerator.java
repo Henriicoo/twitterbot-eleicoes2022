@@ -1,6 +1,8 @@
-package com.henriquenapimo1;
+package com.henriquenapimo1.imagens;
 
-import io.quickchart.QuickChart;
+import com.henriquenapimo1.obj.Candidato;
+import com.henriquenapimo1.obj.Estado;
+import com.henriquenapimo1.Utils;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -12,71 +14,13 @@ import java.util.List;
 
 public class ImageGenerator {
 
-    private static Candidato candidato;
-
-    private static String createCandidatoChart() {
-        QuickChart chart = new QuickChart();
-
-        chart.setWidth(191);
-        chart.setHeight(191);
-        chart.setVersion("2");
-
-        chart.setConfig("{" +
-                "  type: 'radialGauge'," +
-                "  data: {" +
-                "    datasets: [{" +
-                "      data: ["+candidato.porcent+"]," +
-                "      backgroundColor: getGradientFillHelper('horizontal',['green','"+candidato.cor()+"'])," +
-                "    }]" +
-                "  }," +
-                "  options: {" +
-                "    domain: [0, 100]," +
-                "    trackColor: '#cccccc'," +
-                "    centerPercentage: 90," +
-                "    centerArea: {" +
-                "      displayText: false," +
-                "    }," +
-                "  }" +
-                "}");
-
-        return chart.getUrl();
-    }
-
-    private static String createProgress(double progress) {
-        QuickChart chart = new QuickChart();
-
-        chart.setWidth(420);
-        chart.setHeight(5);
-        chart.setVersion("2");
-
-        chart.setConfig("{" +
-                "            type: 'progressBar'," +
-                "                    data: {" +
-                "            datasets: [{" +
-                "                data: ["+progress+"]," +
-                "                backgroundColor: getGradientFillHelper('horizontal', ['#04ADBF', '#0901f7'])," +
-                "            }]" +
-                "        }," +
-                "            options: {" +
-                "                plugins: {" +
-                "                    datalabels: {" +
-                "                        display: false," +
-                "                    }" +
-                "                }" +
-                "            }," +
-                "        }");
-
-        return chart.getUrl();
-    }
-
     public static void createCandidatoImage(Candidato cand) throws IOException {
-        candidato = cand;
 
         Color cor = Color.BLUE;
         if(cand.cor().equals("red"))
             cor = Color.RED;
 
-        URL graficoURL = new URL(createCandidatoChart());
+        URL graficoURL = new URL(ChartGenerator.createCandidatoChart(cand));
         BufferedImage grafico = ImageIO.read(graficoURL);
 
         BufferedImage imagem = new BufferedImage(250,375,BufferedImage.TYPE_INT_RGB);
@@ -140,7 +84,7 @@ public class ImageGenerator {
     }
 
     public static void createFinalImage(double prog) throws IOException {
-        URL progressURL = new URL(createProgress(prog));
+        URL progressURL = new URL(ChartGenerator.createProgress(prog));
         BufferedImage progress = ImageIO.read(progressURL);
 
         BufferedImage imagem = new BufferedImage(500,375,BufferedImage.TYPE_INT_RGB);
@@ -169,13 +113,13 @@ public class ImageGenerator {
         graphics.drawString(text,400,336+metrics.getHeight());
 
 
-        ImageIO.write(imagem,"png",new File("src/main/resources/gen/"+Utils.finalImageFile));
+        ImageIO.write(imagem,"png",new File("src/main/resources/gen/"+ Utils.finalImageFile));
     }
 
     public static void createEstadosChart(List<Estado> estados) throws IOException {
-        String graf1 = createEstChart(estados.subList(0,9));
-        String graf2 = createEstChart(estados.subList(9,18));
-        String graf3 = createEstChart(estados.subList(18,27));
+        String graf1 = ChartGenerator.createEstChart(estados.subList(0,9));
+        String graf2 = ChartGenerator.createEstChart(estados.subList(9,18));
+        String graf3 = ChartGenerator.createEstChart(estados.subList(18,27));
 
         BufferedImage imagem = ImageIO.read(new URL(graf1));
         ImageIO.write(imagem,"png",new File("src/main/resources/gen/grafico1.png"));
@@ -187,80 +131,8 @@ public class ImageGenerator {
         ImageIO.write(imagem,"png",new File("src/main/resources/gen/grafico3.png"));
     }
 
-    private static String createEstChart(List<Estado> est) {
-        QuickChart chart = new QuickChart();
-
-        chart.setWidth(700);
-        chart.setHeight(373);
-        chart.setVersion("2");
-        chart.setBackgroundColor("white");
-
-        StringBuilder labels = new StringBuilder();
-        StringBuilder lula = new StringBuilder();
-        StringBuilder bolso = new StringBuilder();
-        StringBuilder urna = new StringBuilder();
-
-        est.forEach(uf -> {
-            labels.append("\"").append(uf.nm.toUpperCase()).append("\",");
-            lula.append(uf.votosL).append(",");
-            bolso.append(uf.votosB).append(",");
-            urna.append(uf.urnasApuradas).append(",");
-        });
-
-        chart.setConfig("{" +
-                "  \"type\": \"horizontalBar\"," +
-                "  \"data\": {" +
-                "    \"labels\": [" +
-                labels +
-                "    ]," +
-                "    \"datasets\": [" +
-                "      {" +
-                "        \"label\": \"Lula\"," +
-                "        \"backgroundColor\": \"red\"," +
-                "        \"borderWidth\": 1," +
-                "        \"data\": [" +
-                lula +
-                "        ]" +
-                "      }," +
-                "      {" +
-                "        \"label\": \"Jair Bolsonaro\"," +
-                "        \"backgroundColor\": \"blue\"," +
-                "        \"data\": [" +
-                bolso +
-                "        ]" +
-                "      }," +
-                "      {" +
-                "        \"label\": \"Urnas Apuradas\"," +
-                "        \"backgroundColor\": \"#cccccc\"," +
-                "        \"borderWidth\": 1," +
-                "        \"data\": [" +
-                urna +
-                "        ]" +
-                "      }" +
-                "    ]" +
-                "  }," +
-                "  \"options\": {" +
-                "    \"elements\": {" +
-                "      \"rectangle\": {" +
-                "        \"borderWidth\": 2" +
-                "      }" +
-                "    }," +
-                "    \"responsive\": true," +
-                "    \"legend\": {" +
-                "      \"position\": \"right\"" +
-                "    }," +
-                "    \"title\": {" +
-                "      \"display\": true," +
-                "      \"text\": \"Apurações por Estado\"" +
-                "    }" +
-                "  }" +
-                "}");
-
-        return chart.getUrl();
-    }
-
     public static void createMapa(List<Estado> estados) throws IOException {
-        BufferedImage imagem = new BufferedImage(500,500,BufferedImage.TYPE_INT_ARGB); // 700 373
+        BufferedImage imagem = new BufferedImage(700,373,BufferedImage.TYPE_INT_ARGB);
         Graphics2D graphics = imagem.createGraphics();
 
         graphics.setColor(Color.WHITE);
@@ -269,7 +141,7 @@ public class ImageGenerator {
         estados.forEach(e -> {
             try {
                 BufferedImage estado = changeColor(e.nm,Double.parseDouble(e.votosL.replace(",",".")) > Double.parseDouble(e.votosB.replace(",",".")));
-                graphics.drawImage(estado,0,0,500,500,null);
+                graphics.drawImage(estado,163,0,374,374,null);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }

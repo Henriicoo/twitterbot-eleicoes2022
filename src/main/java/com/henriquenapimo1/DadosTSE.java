@@ -4,29 +4,16 @@ import com.github.kevinsawicki.http.HttpRequest;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.henriquenapimo1.imagens.ImageGenerator;
+import com.henriquenapimo1.obj.Candidato;
+import com.henriquenapimo1.obj.Estado;
 
 import java.io.IOException;
 import java.util.*;
 
-public class EleicoesTimer {
+public class DadosTSE {
 
-    public EleicoesTimer() {
-        Timer timer = new Timer();
-
-        timer.schedule(new TimerTask() {
-            public void run() {
-
-                try {
-                    apurar();
-                } catch (IOException | InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-
-            }
-        }, 0, 60*5*1000);
-    }
-
-    private void apurar() throws IOException,InterruptedException {
+    public void apurar() throws IOException {
         List<Candidato> candidatos = getDadosTSE("br");
         List<Estado> estados = getDadosEstados();
 
@@ -40,11 +27,7 @@ public class EleicoesTimer {
         ImageGenerator.createMapa(estados);
         ImageGenerator.createEstadosChart(estados);
 
-        //Thread.sleep(3 * 1000);
-
         ImageGenerator.createFinalImage(Double.parseDouble(urnasTotal.replace(",",".")));
-
-        //Thread.sleep(2 * 1000);
 
         Candidato primeiro = candidatos.stream().filter(c -> c.pos==1).findFirst().get();
         Candidato segundo = candidatos.stream().filter(c -> c.pos==2).findFirst().get();

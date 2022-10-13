@@ -1,4 +1,4 @@
-package com.henriquenapimo1;
+package com.henriquenapimo1.obj;
 
 public class Estado {
 
