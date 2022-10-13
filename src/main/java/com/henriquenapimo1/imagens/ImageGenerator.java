@@ -139,8 +139,14 @@ public class ImageGenerator {
         graphics.fillRect(0,0,imagem.getWidth(),imagem.getHeight());
 
         estados.forEach(e -> {
+            Color cor = Color.BLUE;
+            if(Double.parseDouble(e.votosL.replace(",",".")) > Double.parseDouble(e.votosB.replace(",",".")))
+                cor = Color.RED;
+            else if(Double.parseDouble(e.urnasApuradas.replace(",","."))==0)
+                cor = Color.GRAY;
+
             try {
-                BufferedImage estado = changeColor(e.nm,Double.parseDouble(e.votosL.replace(",",".")) > Double.parseDouble(e.votosB.replace(",",".")));
+                BufferedImage estado = changeColor(e.nm,cor);
                 graphics.drawImage(estado,163,0,374,374,null);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
@@ -150,16 +156,12 @@ public class ImageGenerator {
         ImageIO.write(imagem,"png",new File("src/main/resources/gen/mapa.png"));
     }
 
-    private static BufferedImage changeColor(String estado, boolean red) throws IOException {
+    private static BufferedImage changeColor(String estado, Color cor) throws IOException {
         BufferedImage image = new BufferedImage(500,500,BufferedImage.TYPE_INT_ARGB);
         image.createGraphics().drawImage(ImageIO.read(new File("src/main/resources/estados/"+estado+".png")),0,0,null);
 
         int width = image.getWidth();
         int height = image.getHeight();
-
-        Color cor = Color.BLUE;
-        if(red)
-            cor = Color.RED;
 
         for (int xx = 0; xx < width; xx++) {
             for (int yy = 0; yy < height; yy++) {
