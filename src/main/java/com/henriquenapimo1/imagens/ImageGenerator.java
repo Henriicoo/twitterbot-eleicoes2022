@@ -132,7 +132,7 @@ public class ImageGenerator {
     }
 
     public static void createMapa(List<Estado> estados) throws IOException {
-        BufferedImage imagem = new BufferedImage(700,373,BufferedImage.TYPE_INT_ARGB);
+        BufferedImage imagem = new BufferedImage(1200,675,BufferedImage.TYPE_INT_ARGB);
         Graphics2D graphics = imagem.createGraphics();
 
         graphics.setColor(Color.WHITE);
@@ -147,7 +147,7 @@ public class ImageGenerator {
 
             try {
                 BufferedImage estado = changeColor(e.nm,cor);
-                graphics.drawImage(estado,163,0,374,374,null);
+                graphics.drawImage(estado,262,0,675,675,null);
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
@@ -157,8 +157,8 @@ public class ImageGenerator {
     }
 
     private static BufferedImage changeColor(String estado, Color cor) throws IOException {
-        BufferedImage image = new BufferedImage(500,500,BufferedImage.TYPE_INT_ARGB);
-        image.createGraphics().drawImage(ImageIO.read(new File("src/main/resources/estados/"+estado+".png")),0,0,null);
+        BufferedImage image = new BufferedImage(675,675,BufferedImage.TYPE_INT_ARGB);
+        image.createGraphics().drawImage(ImageIO.read(new File("src/main/resources/estados/"+estado+".png")),0,0,675,675,null);
 
         int width = image.getWidth();
         int height = image.getHeight();
@@ -166,7 +166,7 @@ public class ImageGenerator {
         for (int xx = 0; xx < width; xx++) {
             for (int yy = 0; yy < height; yy++) {
                 Color originalColor = new Color(image.getRGB(xx, yy),true);
-                if (originalColor.getAlpha() >= 100) {
+                if (originalColor.getAlpha() >= 200) {
                     image.setRGB(xx, yy, cor.getRGB());
                 }
             }
