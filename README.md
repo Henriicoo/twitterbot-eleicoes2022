@@ -13,5 +13,10 @@ Obrigado aos criadores dos seguintes repositórios, sem eles, isso não seria po
 - **[gson](https://github.com/google/gson)** por [@google](https://github.com/google)
 
 ### Exemplo
-Exemplo da publicação enviada para o Twitter. (Criado com os dados das apurações do primeiro turno)
-<img src="/src/main/resources/tweet-example.png" width="500">  
+- Exemplo da publicação enviada para o Twitter.  
+<img src="/src/main/resources/exemplos/tweet-exemplo.png" width="500">  
+<sup>Obrigado ao pikaso.me pelas screenshots de tweet • Criado com os dados das apurações do primeiro turno</sup>   
+
+- Exemplo dos gráficos e do mapa criado que são enviados para o Twitter.  
+<img src="/src/main/resources/exemplos/graficos-exemplo.png" width="500">  
+<sup>Obrigado ao pikaso.me pelas screenshots de tweet • Criado com os dados das apurações do primeiro turno</sup>  
