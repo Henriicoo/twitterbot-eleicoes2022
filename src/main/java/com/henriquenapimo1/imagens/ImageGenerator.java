@@ -141,7 +141,7 @@ public class ImageGenerator {
 
         estados.forEach(e -> {
             Color cor = Color.BLUE;
-            if(Double.parseDouble(e.votosL.replace(",",".")) > Double.parseDouble(e.votosB.replace(",",".")))
+            if(e.votosL > e.votosB)
                 cor = Color.RED;
             else if(Double.parseDouble(e.urnasApuradas.replace(",","."))==0)
                 cor = Color.GRAY;

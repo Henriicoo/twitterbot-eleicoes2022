@@ -69,18 +69,20 @@ public class ChartGenerator {
         chart.setWidth(700);
         chart.setHeight(373);
         chart.setVersion("2");
-        chart.setBackgroundColor("white");
+        chart.setBackgroundColor("#e6e6e7");
 
         StringBuilder labels = new StringBuilder();
         StringBuilder lula = new StringBuilder();
         StringBuilder bolso = new StringBuilder();
         StringBuilder urna = new StringBuilder();
+        StringBuilder nulo = new StringBuilder();
 
         est.forEach(uf -> {
             labels.append("\"").append(uf.nm.toUpperCase()).append("\",");
             lula.append(uf.votosL).append(",");
             bolso.append(uf.votosB).append(",");
             urna.append(uf.urnasApuradas).append(",");
+            nulo.append(uf.nulos).append(",");
         });
 
         chart.setConfig("{" +
@@ -93,6 +95,7 @@ public class ChartGenerator {
                 "      {" +
                 "        \"label\": \"Lula\"," +
                 "        \"backgroundColor\": \"red\"," +
+                "        \"stack\": \"Cand\"," +
                 "        \"borderWidth\": 1," +
                 "        \"data\": [" +
                 lula +
@@ -101,13 +104,23 @@ public class ChartGenerator {
                 "      {" +
                 "        \"label\": \"Jair Bolsonaro\"," +
                 "        \"backgroundColor\": \"blue\"," +
+                "        \"stack\": \"Cand\"," +
                 "        \"data\": [" +
                 bolso +
                 "        ]" +
                 "      }," +
                 "      {" +
-                "        \"label\": \"Urnas Apuradas\"," +
+                "        \"label\": \"Brancos/Nulos\"," +
                 "        \"backgroundColor\": \"#cccccc\"," +
+                "        \"stack\": \"Cand\"," +
+                "        \"borderWidth\": 1," +
+                "        \"data\": [" +
+                nulo +
+                "        ]" +
+                "      }," +
+                "      {" +
+                "        \"label\": \"Urnas Apuradas\"," +
+                "        \"backgroundColor\": \"#999999\"," +
                 "        \"borderWidth\": 1," +
                 "        \"data\": [" +
                 urna +
@@ -121,9 +134,8 @@ public class ChartGenerator {
                 "        \"borderWidth\": 2" +
                 "      }" +
                 "    }," +
-                "    \"responsive\": true," +
                 "    \"legend\": {" +
-                "      \"position\": \"right\"" +
+                "      \"position\": \"top\"" +
                 "    }," +
                 "    \"title\": {" +
                 "      \"display\": true," +

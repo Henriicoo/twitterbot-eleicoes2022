@@ -61,6 +61,10 @@ public class DadosTSE {
         urnasFormat = urnasAgora.split(",")[0];
         horaUltimaAtt = eleicoes.get("ht").getAsString();
 
+        double percentBrancos = parseNum(eleicoes.get("pvb").getAsString());
+        double percentNulos = parseNum(eleicoes.get("ptvn").getAsString());
+        int percentNulosBrancos = (int) (percentBrancos+percentNulos);
+
         JsonArray cand = eleicoes.getAsJsonArray("cand");
 
         cand.forEach(r -> {
@@ -72,13 +76,18 @@ public class DadosTSE {
                         res.get("n").getAsInt(),
                         res.get("seq").getAsInt(),
                         res.get("vap").getAsLong(),
-                        res.get("pvap").getAsString(),
+                        (int) parseNum(res.get("pvap").getAsString()),
                         res.get("cc").getAsString().split(" ")[0],
-                        urnasFormat
+                        urnasFormat,
+                        percentNulosBrancos
                 ));
         });
 
         return resultados;
+    }
+
+    private double parseNum(String st) {
+        return Double.parseDouble(st.replace(",","."));
     }
 
     private List<Estado> getDadosEstados() {
@@ -92,7 +101,8 @@ public class DadosTSE {
                     uf,
                     l.stream().filter(c -> c.nome.equals("LULA")).findFirst().get().porcent,
                     l.stream().filter(c -> c.nome.equals("JAIR BOLSONARO")).findFirst().get().porcent,
-                    l.get(0).urnas
+                    l.get(0).urnas,
+                    String.valueOf(l.get(0).nulos)
             ));
         });
 
