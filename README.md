@@ -3,7 +3,8 @@
 ### Descrição
 Olá! Esse projeto foi criado com o intuito de divulgar os dados das apurações das eleições de 2022 no Twitter, por meio de um bot, que envia um sumário com imagem a cada
 5 minutos. O que é mais cômodo do que atualizar a página do TSE a cada minuto para acompanhar as apurações.  
-O perfil do bot pode ser encontrado no [@EleicoesBot](https://twitter.com/EleicoesBot).
+Ele também cria gráficos com informações de cada estado, por ordem alfabética, com as porcentagens de cada candidato e dos votos brancos ou nulos, também informa a porcentagem de apuração das urnas para o estado.  
+O perfil do bot no Twitter pode ser encontrado no [@EleicoesBot](https://twitter.com/EleicoesBot).
 
 ### Agradecimentos
 Obrigado aos criadores dos seguintes repositórios, sem eles, isso não seria possível
