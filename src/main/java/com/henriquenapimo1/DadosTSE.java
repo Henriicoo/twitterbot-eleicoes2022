@@ -11,6 +11,7 @@ import com.henriquenapimo1.obj.Estado;
 import java.io.IOException;
 import java.util.*;
 
+@SuppressWarnings("OptionalGetWithoutIsPresent")
 public class DadosTSE {
 
     public void apurar() throws IOException {
@@ -50,6 +51,10 @@ public class DadosTSE {
         JsonObject eleicoes = JsonParser.parseString(tseResponse).getAsJsonObject();
 
         String urnasAgora = eleicoes.get("pst").getAsString();
+
+        if(eleicoes.get("st").getAsLong()==0) {
+            return Collections.emptyList();
+        }
 
         if(UF.equals("br")) {
             if (urnasAgora.equals(urnasTotal)) {
@@ -97,6 +102,8 @@ public class DadosTSE {
 
         Arrays.stream(UFs.split(",")).forEach(uf -> {
             List<Candidato> l = getDadosTSE(uf);
+            if(l.isEmpty()) return;
+
             estados.add(new Estado(
                     uf,
                     l.stream().filter(c -> c.nome.equals("LULA")).findFirst().get().porcent,
