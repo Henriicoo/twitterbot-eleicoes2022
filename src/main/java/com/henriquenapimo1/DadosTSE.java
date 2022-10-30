@@ -103,7 +103,7 @@ public class DadosTSE {
                         res.get("n").getAsInt(),
                         res.get("seq").getAsInt(),
                         res.get("vap").getAsLong(),
-                        (int) parseNum(res.get("pvap").getAsString()),
+                        parseNum(res.get("pvap").getAsString()),
                         res.get("cc").getAsString().split(" ")[0],
                         urnasFormat,
                         percentNulosBrancos

@@ -2,6 +2,8 @@ package com.henriquenapimo1.obj;
 
 import org.apache.commons.text.WordUtils;
 
+import java.text.DecimalFormat;
+
 public class Leaderboard {
 
     public String primeiroLugar;
@@ -18,7 +20,7 @@ public class Leaderboard {
     }
 
     public String compare() {
-        double dif = primeiroPorcent-segundoPorcent;
+        String dif = new DecimalFormat("0.00").format(primeiroPorcent-segundoPorcent);
         return WordUtils.capitalizeFully(primeiroLugar) +
                 " está na liderança com " + dif + "% de vantagem.";
     }
