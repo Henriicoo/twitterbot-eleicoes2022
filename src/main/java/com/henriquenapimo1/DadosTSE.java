@@ -81,9 +81,9 @@ public class DadosTSE {
 
         String urnasAgora = eleicoes.get("pst").getAsString();
 
-        /*if(eleicoes.get("st").getAsLong()==0) {
+        if(eleicoes.get("st").getAsLong()==0) {
             return Collections.emptyList();
-        }*/
+        }
 
         if(UF.equals("br")) {
             if (urnasAgora.equals(urnasTotal)) {
