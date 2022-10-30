@@ -8,12 +8,12 @@ public class Candidato {
 
     public int pos;
     public Long votos;
-    public int porcent;
+    public double porcent;
 
     public String urnas;
     public int nulos;
 
-    public Candidato(String nome,int num, int pos,Long votos,int porcent, String partido, String urnas, int perNul) {
+    public Candidato(String nome,int num, int pos,Long votos,double porcent, String partido, String urnas, int perNul) {
         this.nome = nome;
         this.num = num;
         this.pos = pos;

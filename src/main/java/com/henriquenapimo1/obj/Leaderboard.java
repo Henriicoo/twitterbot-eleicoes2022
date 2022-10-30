@@ -7,24 +7,19 @@ public class Leaderboard {
     public String primeiroLugar;
     public String segundoLugar;
 
-    public int primeiroPorcent;
-    public int segundoPorcent;
+    public double primeiroPorcent;
+    public double segundoPorcent;
 
-    public Leaderboard(String f, String s, int fP, int sP) {
+    public Leaderboard(String f, String s, double fP, double sP) {
         primeiroLugar = f;
         segundoLugar = s;
         primeiroPorcent = fP;
         segundoPorcent = sP;
     }
 
-    public String compare(Leaderboard board) {
-        StringBuilder builder = new StringBuilder();
-
-        builder.append(WordUtils.capitalizeFully(primeiroLugar));
-        int dif = primeiroPorcent-segundoPorcent;
-
-        builder.append(" está na liderança com ").append(dif).append("% de vantagem.");
-
-        return builder.toString();
+    public String compare() {
+        double dif = primeiroPorcent-segundoPorcent;
+        return WordUtils.capitalizeFully(primeiroLugar) +
+                " está na liderança com " + dif + "% de vantagem.";
     }
 }

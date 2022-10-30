@@ -32,7 +32,7 @@ public class TweetManager {
 
         twitterClient.postTweet(TweetParameters.builder()
                         .reply(TweetParameters.Reply.builder().inReplyToTweetId(tweet.getId()).build())
-                .text("APURAÇÃO POR ESTADOS #Eleições2022")
+                .text("APURAÇÃO POR ESTADOS #Eleições2022 #Eleicoes2022 #Eleicao2022")
                         .media(TweetParameters.Media.builder()
                                 .mediaIds(mediaIds)
                                 .build())

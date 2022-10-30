@@ -16,7 +16,6 @@ import java.util.*;
 public class DadosTSE {
 
     private boolean hasEnded = false;
-    private Leaderboard placar = null;
 
     public void apurar() throws IOException {
 
@@ -56,12 +55,10 @@ public class DadosTSE {
         Candidato segundo = candidatos.stream().filter(c -> c.pos==2).findFirst().get();
 
         Leaderboard placarNovo = new Leaderboard(primeiro.nome,segundo.nome,primeiro.porcent,segundo.porcent);
-        String textPlacar = placarNovo.compare(placar);
-
-        placar = placarNovo;
+        String textPlacar = placarNovo.compare();
 
         String text = "APURAÇÃO DAS URNAS ("+urnasTotal+"% apuradas) - às "+horaUltimaAtt+"\n1º "+primeiro.nome+": "+primeiro.porcent+"%\n"+
-                "2º "+segundo.nome+": "+segundo.porcent+"%\n\n"+textPlacar+"\n#Eleições2022";
+                "2º "+segundo.nome+": "+segundo.porcent+"%\n\n"+textPlacar+"\n#Eleições2022 #Eleicoes2022 #Eleicao2022";
 
         System.out.println("↳ Dados apurados com sucesso. Enviando ao Twitter...");
         TweetManager.postThread(text,"gen/"+Utils.finalImageFile,"gen/mapa.png","gen/grafico1.png","gen/grafico2.png","gen/grafico3.png");
@@ -80,10 +77,6 @@ public class DadosTSE {
         JsonObject eleicoes = JsonParser.parseString(tseResponse).getAsJsonObject();
 
         String urnasAgora = eleicoes.get("pst").getAsString();
-
-        if(eleicoes.get("st").getAsLong()==0) {
-        //    return Collections.emptyList();
-        }
 
         if(UF.equals("br")) {
             if (urnasAgora.equals(urnasTotal)) {
@@ -137,8 +130,7 @@ public class DadosTSE {
                     uf,
                     l.stream().filter(c -> c.nome.equals("LULA")).findFirst().get().porcent,
                     l.stream().filter(c -> c.nome.equals("JAIR BOLSONARO")).findFirst().get().porcent,
-                    l.get(0).urnas,
-                    String.valueOf(l.get(0).nulos)
+                    l.get(0).urnas
             ));
         });
 
