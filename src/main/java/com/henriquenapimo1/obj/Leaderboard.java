@@ -23,15 +23,7 @@ public class Leaderboard {
         builder.append(WordUtils.capitalizeFully(primeiroLugar));
         int dif = primeiroPorcent-segundoPorcent;
 
-        if(board==null) {
-            return builder.append(" começa as apurações com vantagem de ").append(dif).append("%!").toString();
-        }
-
-        if(board.primeiroLugar.equals(primeiroLugar)) {
-            builder.append(" está na liderança com ").append(dif).append("% de vantagem.");
-        } else {
-            builder.append(" ultrapassou seu adversário, ficando com ").append(dif).append("% de vantagem.");
-        }
+        builder.append(" está na liderança com ").append(dif).append("% de vantagem.");
 
         return builder.toString();
     }

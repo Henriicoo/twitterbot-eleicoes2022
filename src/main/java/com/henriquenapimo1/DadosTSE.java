@@ -60,7 +60,7 @@ public class DadosTSE {
 
         placar = placarNovo;
 
-        String text = "APURAÇÃO DAS URNAS ("+urnasFormat+"% apuradas) - às "+horaUltimaAtt+"\n1º "+primeiro.nome+": "+primeiro.porcent+"%\n"+
+        String text = "APURAÇÃO DAS URNAS ("+urnasTotal+"% apuradas) - às "+horaUltimaAtt+"\n1º "+primeiro.nome+": "+primeiro.porcent+"%\n"+
                 "2º "+segundo.nome+": "+segundo.porcent+"%\n\n"+textPlacar+"\n#Eleições2022";
 
         System.out.println("↳ Dados apurados com sucesso. Enviando ao Twitter...");
@@ -82,7 +82,7 @@ public class DadosTSE {
         String urnasAgora = eleicoes.get("pst").getAsString();
 
         if(eleicoes.get("st").getAsLong()==0) {
-            return Collections.emptyList();
+        //    return Collections.emptyList();
         }
 
         if(UF.equals("br")) {
