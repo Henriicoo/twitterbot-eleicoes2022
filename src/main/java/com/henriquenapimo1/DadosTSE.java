@@ -7,6 +7,7 @@ import com.google.gson.JsonParser;
 import com.henriquenapimo1.imagens.ImageGenerator;
 import com.henriquenapimo1.obj.Candidato;
 import com.henriquenapimo1.obj.Estado;
+import com.henriquenapimo1.obj.Leaderboard;
 
 import java.io.IOException;
 import java.util.*;
@@ -14,13 +15,32 @@ import java.util.*;
 @SuppressWarnings("OptionalGetWithoutIsPresent")
 public class DadosTSE {
 
+    private boolean hasEnded = false;
+    private Leaderboard placar = null;
+
     public void apurar() throws IOException {
+
+        if(hasEnded) {
+            EleicoesBot.cancelTimer();
+            return;
+        }
+
         List<Candidato> candidatos = getDadosTSE("br");
         List<Estado> estados = getDadosEstados();
 
-        if(candidatos.isEmpty() || estados.isEmpty())
+        if(candidatos.isEmpty() || estados.isEmpty()) {
+            System.out.println("↳ Dados indisponíveis. Aguardando o próximo timer!");
             return;
+        } else {
+            System.out.println("↳ Dados obtidos com sucesso!");
+        }
 
+        if(!hasEnded && Double.parseDouble(urnasTotal.replace(",","."))==100) {
+            System.out.println("↳ As urnas estão 100% apuradas! Esta será a última atualização.");
+            hasEnded = true;
+        }
+
+        System.out.println("↳ Criando imagens...");
         for (Candidato candidato : candidatos) {
             ImageGenerator.createCandidatoImage(candidato);
         }
@@ -30,13 +50,22 @@ public class DadosTSE {
 
         ImageGenerator.createFinalImage(Double.parseDouble(urnasTotal.replace(",",".")));
 
+        System.out.println("    ↳ Imagens geradas com sucesso!");
+
         Candidato primeiro = candidatos.stream().filter(c -> c.pos==1).findFirst().get();
         Candidato segundo = candidatos.stream().filter(c -> c.pos==2).findFirst().get();
 
-        String text = "APURAÇÃO DAS URNAS ("+urnasFormat+"% apuradas) - às "+horaUltimaAtt+"\n1º "+primeiro.nome+": "+primeiro.porcent+"% ("+primeiro.votos+" votos)\n"+
-                "2º "+segundo.nome+": "+segundo.porcent+"% ("+segundo.votos+" votos)\n#Eleições2022";
+        Leaderboard placarNovo = new Leaderboard(primeiro.nome,segundo.nome,primeiro.porcent,segundo.porcent);
+        String textPlacar = placarNovo.compare(placar);
 
+        placar = placarNovo;
+
+        String text = "APURAÇÃO DAS URNAS ("+urnasFormat+"% apuradas) - às "+horaUltimaAtt+"\n1º "+primeiro.nome+": "+primeiro.porcent+"%\n"+
+                "2º "+segundo.nome+": "+segundo.porcent+"%\n\n"+textPlacar+"\n#Eleições2022";
+
+        System.out.println("↳ Dados apurados com sucesso. Enviando ao Twitter...");
         TweetManager.postThread(text,"gen/"+Utils.finalImageFile,"gen/mapa.png","gen/grafico1.png","gen/grafico2.png","gen/grafico3.png");
+        System.out.println("    ↳ Postagem concluída!");
     }
 
     private String urnasTotal;
@@ -52,9 +81,9 @@ public class DadosTSE {
 
         String urnasAgora = eleicoes.get("pst").getAsString();
 
-        if(eleicoes.get("st").getAsLong()==0) {
+        /*if(eleicoes.get("st").getAsLong()==0) {
             return Collections.emptyList();
-        }
+        }*/
 
         if(UF.equals("br")) {
             if (urnasAgora.equals(urnasTotal)) {
