@@ -82,7 +82,7 @@ public class ChartGenerator {
             lula.append(uf.votosL).append(",");
             bolso.append(uf.votosB).append(",");
             urna.append(uf.urnasApuradas).append(",");
-            nulo.append(uf.nulos).append(",");
+            nulo.append(100-uf.votosL- uf.votosB).append(",");
         });
 
         chart.setConfig("{" +
